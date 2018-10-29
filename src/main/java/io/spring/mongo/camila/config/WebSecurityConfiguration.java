@@ -21,17 +21,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	private DetailService detailService;
 	
 	@Override
-	protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception{
-		authenticationManagerBuilder.userDetailsService(detailService);
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
+		auth.userDetailsService(detailService);
 	}
-	
+
+	@Override
 	@Bean
 	public AuthenticationManager authenticationManagerBean() throws Exception{
 		return super.authenticationManagerBean();
 	}
-	
-	public void configure(WebSecurity security) throws Exception {
-		security.ignoring().antMatchers(HttpMethod.OPTIONS, "/**")
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**")
 						   .antMatchers(HttpMethod.GET, "/public/**");
 	}
 }

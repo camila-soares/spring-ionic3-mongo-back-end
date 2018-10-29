@@ -29,7 +29,7 @@ public class Usuario {
     
     
 
-	public Usuario() {
+	public Usuario(String admin , String camila , String email , List <Perfil> perfisUsuario) {
 	
 	}
     

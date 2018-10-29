@@ -28,13 +28,14 @@ public class CargaInicial implements ApplicationListener<ContextRefreshedEvent> 
 		
 		if(perfis.isEmpty()){
 			perfilRepository.save(new Perfil("ROLE_ADMIN"));
+			perfilRepository.save ( new Perfil ( "ROLE_OREIA" ) );
 			
 			Perfil perfil = perfilRepository.findByNome("ROLE_ADMIN");
 			
 			List<Perfil> perfisUsuario = new ArrayList<>();
 			perfisUsuario.add(perfil);
 			
-			usuarioRepository.save(new Usuario("Camila", perfisUsuario, "admin", "123"));
+			usuarioRepository.save(new Usuario("ADMIN", "camila", "000", perfisUsuario));
 		}
 		
 	}

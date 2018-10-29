@@ -8,14 +8,13 @@
  */
 package io.spring.mongo.camila.controller;
 
+import java.security.Principal;
 import java.util.List;
+
+import io.spring.mongo.camila.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.spring.mongo.camila.entity.Usuario;
 import io.spring.mongo.camila.service.UsuarioService;
@@ -29,6 +28,9 @@ public class UsuarioController {
 
     @Autowired
     UsuarioService usuarioService;
+
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
     @RequestMapping(value = "/usuario", method = RequestMethod.GET)
     public List<Usuario> listar() {
@@ -58,12 +60,18 @@ public class UsuarioController {
     @RequestMapping(value="/usuario/{page}/{count}", method = RequestMethod.GET)
     public Page<Usuario> listaPaginada(@PathVariable int page, @PathVariable int count){
 		return this.usuarioService.listaPaginada(count, page);
-    	
     }
     
     @RequestMapping(value="/usuario/{nome}/nome", method = RequestMethod.GET)
     public List<Usuario> listaPaginada(@PathVariable String nome){
     	return this.usuarioService.buscaPorNome(nome);
+    }
+
+    @RequestMapping(value="/usuario/logado", method = RequestMethod.GET)
+    @ResponseBody
+    public Usuario currentName(Principal principal){
+        Usuario usuario = this.usuarioRepository.findByEmail ( principal.getName () );
+        return usuario;
     }
 
 }
